@@ -96,7 +96,19 @@
             var map = new kakao.maps.Map(mapContainer, mapOption); 
 
             // 장소 검색 객체를 생성합니다
-            var ps = new kakao.maps.services.Places();  
+            var ps = [];
+			$.getJSON('https://cloudstac.blob.core.windows.net/cloud-container/agencydb.json', function (data) {
+				$.each(data, function (i,item) { // 업로드한 json 파일에서 총 8개의 자료를 불러온다.
+					ps.push(Number(item.latitude)); // 위도
+					ps.push(Number(item.longitude)); // 경도
+					ps.push(item.address); // 주소
+                    ps.push(item.phone_number); // 전화번호
+					ps.push(item.agency_name); // 기관명
+					ps.push(item.weekday_oph); // 평일 영업시간
+					ps.push(item.saturday_oph); // 토요일 영업시간
+                    ps.push(item.holiday_oph); // 공휴일 영업시간
+				});
+			});  
 
             // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
             var infowindow = new kakao.maps.InfoWindow({zIndex:1});
@@ -143,7 +155,7 @@
             }
 
             // 검색 결과 목록과 마커를 표출하는 함수입니다
-            function displayPlaces(html) {
+            function displayPlaces(places) {
 
                 var listEl = document.getElementById('placesList'), 
                 menuEl = document.getElementById('menu_wrap'),
@@ -157,12 +169,12 @@
                 // 지도에 표시되고 있는 마커를 제거합니다
                 removeMarker();
                 
-                for ( var i=0; i<html.length; i++ ) {
+                for ( var i=0; i<places.length; i++ ) {
 
                     // 마커를 생성하고 지도에 표시합니다
-                    var placePosition = new kakao.maps.LatLng(html[i].y, html[i].x),
+                    var placePosition = new kakao.maps.LatLng(places[0], places[1]),
                         marker = addMarker(placePosition, i), 
-                        itemEl = getListItem(i, html[i]); // 검색 결과 항목 Element를 생성합니다
+                        itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
 
                     // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
                     // LatLngBounds 객체에 좌표를 추가합니다
@@ -187,7 +199,7 @@
                         itemEl.onmouseout =  function () {
                             infowindow.close();
                         };
-                    })(marker, html[i].agency_name);
+                    })(marker, places[i].agency_name);
 
                     fragment.appendChild(itemEl);
                 }
@@ -201,21 +213,21 @@
             }
 
             // 검색결과 항목을 Element로 반환하는 함수입니다
-            function getListItem(index, html) {
+            function getListItem(index, places) {
 
                 var el = document.createElement('li'),
                 itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
                             '<div class="info">' +
-                            '   <h5>' + html.agency_name + '</h5>';
+                            '   <h5>' + places.agency_name + '</h5>';
 
-                if (html.road_address_name) {
-                    itemStr += '    <span>' + html.road_address_name + '</span>' +
-                                '   <span class="jibun gray">' +  html.address  + '</span>';
+                if (places.road_address_name) {
+                    itemStr += '    <span>' + places.road_address_name + '</span>' +
+                                '   <span class="jibun gray">' +  places.address  + '</span>';
                 } else {
-                    itemStr += '    <span>' +  html.address  + '</span>'; 
+                    itemStr += '    <span>' +  places.address  + '</span>'; 
                 }
                             
-                itemStr += '  <span class="tel">' + html.phone_number  + '</span>' +
+                itemStr += '  <span class="tel">' + places.phone_number  + '</span>' +
                             '</div>';           
 
                 el.innerHTML = itemStr;
