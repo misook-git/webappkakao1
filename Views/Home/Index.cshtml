@@ -3,7 +3,7 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">A collection of Covid-19 screening clinics.</h1>
+    
 </div>
 <html>
     <head>
@@ -13,14 +13,14 @@
         var html = [];
             $.getJSON('https://cloudstac.blob.core.windows.net/cloud-container/agencydb.json', function (data) {
                 $.each(data, function (i,item) { // 업로드한 json 파일에서 총 8개의 자료를 불러온다.
-                    html.push(Number(item.latitude)); // 위도
-                    html.push(Number(item.longitude)); // 경도
-                    html.push(item.address); // 주소
-                    html.push(item.phone_number); // 전화번호
-                    html.push(item.agency_name); // 기관명
-                    html.push(item.weekday_oph); // 평일 영업시간
-                    html.push(item.saturday_oph); // 토요일 영업시간
-                    html.push(item.holiday_oph); // 공휴일 영업시간
+                    html.push(Number(item.latitude)); // 위도: html[0]
+                    html.push(Number(item.longitude)); // 경도: html[1]
+                    html.push(item.address); // 주소: html[2]
+                    html.push(item.phone_number); // 전화번호: html[3]
+                    html.push(item.agency_name); // 기관명: html[4]
+                    html.push(item.weekday_oph); // 평일 영업시간: html[5]
+                    html.push(item.saturday_oph); // 토요일 영업시간: html[6]
+                    html.push(item.holiday_oph); // 공휴일 영업시간: html[7]
                 });
             });
     </script>
@@ -31,7 +31,7 @@
         <script>
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                 mapOption = { 
-                    center: new kakao.maps.LatLng(html[0], html[1]), // 지도의 중심좌표
+                    center: new kakao.maps.LatLng(35.18372275855777, 129.07488466018773), // 지도의 중심좌표: 부산광역시청
                     level: 5 // 지도의 확대 레벨
                 };
             // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
@@ -63,7 +63,7 @@
 
                 // 마커가 지도 위에 표시되도록 설정한다
                 marker.setMap(map);
-                var iwContent = (" 주소: " + html[i+2] + " 전화번호: " + html[i+3] + " 기관명: " + html[i+4] + " 평일 영업시간: " + html[i+5]), // 인포윈도우에 표춛될 내용
+                var iwContent = (" 기관명: " + html[i+4] + \n" 주소: " + html[i+2] + \n" 전화번호: " + html[i+3] + \n" 평일 영업시간: " + html[i+5] + \n" 토요일 영업시간: " + html[i+6] + \n" 공휴일 영업시간: " + html[i+7]), // 인포윈도우에 표춛될 내용
                     iwPosition = new kakao.maps.LatLng(html[i], html[i+1]); // 인포윈도우 표시 위치
 
                 // 인포윈도우를 생성합니다
