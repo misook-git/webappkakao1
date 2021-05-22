@@ -32,7 +32,7 @@
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                 mapOption = { 
                     center: new kakao.maps.LatLng(35.18372275855777, 129.07488466018773), // 지도의 중심좌표: 부산광역시청
-                    level: 7 // 지도의 확대 레벨
+                    level: 9 // 지도의 확대 레벨
                 };
             // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
             var map = new kakao.maps.Map(mapContainer, mapOption);
@@ -63,7 +63,7 @@
 
                 // 마커가 지도 위에 표시되도록 설정한다
                 marker.setMap(map);
-                var iwContent = (" 기관명: " + html[i+4] + \n + " 주소: " + html[i+2] + "\n 전화번호: " + html[i+3] + "\n 평일 영업시간: " + html[i+5] + "\n 토요일 영업시간: " + html[i+6] + "\n 공휴일 영업시간: " + html[i+7]), // 인포윈도우에 표춛될 내용
+                var iwContent = (" 기관명: " + html[i+4] + '\n' + " 주소: " + html[i+2] + "\n 전화번호: " + html[i+3] + "\n 평일 영업시간: " + html[i+5] + "\n 토요일 영업시간: " + html[i+6] + "\n 공휴일 영업시간: " + html[i+7]), // 인포윈도우에 표춛될 내용
                     iwPosition = new kakao.maps.LatLng(html[i], html[i+1]); // 인포윈도우 표시 위치
 
                 // 인포윈도우를 생성합니다
