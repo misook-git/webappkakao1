@@ -63,7 +63,7 @@
 
                 // 마커가 지도 위에 표시되도록 설정한다
                 marker.setMap(map);
-                var iwContent = (" 기관명: " + html[i+4] + " 주소: " + html[i+2] + " 전화번호: " + html[i+3] + " 평일 영업시간: " + html[i+5] + " 토요일 영업시간: " + html[i+6] + " 공휴일 영업시간: " + html[i+7]), // 인포윈도우에 표춛될 내용
+                var iwContent = (` 기관명: ` + html[i+4] + `\n 주소: ` + html[i+2] + `\n 전화번호: ` + html[i+3] + `\n 평일 영업시간: ` + html[i+5] + `\n 토요일 영업시간: ` + html[i+6] + `\n 공휴일 영업시간: ` + html[i+7]), // 인포윈도우에 표춛될 내용
                     iwPosition = new kakao.maps.LatLng(html[i], html[i+1]); // 인포윈도우 표시 위치
 
                 // 인포윈도우를 생성합니다
